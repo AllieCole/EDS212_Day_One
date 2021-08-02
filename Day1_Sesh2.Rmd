@@ -1,0 +1,106 @@
+---
+title: "Day_One_Session2"
+author: "Allie Cole"
+date: "8/2/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+```
+
+### Logs and Exponents in R
+
+Some examples of how to use 'log()' function and 'exp()' function in R
+
+```{r}
+#Examples of logs 
+
+log(4)
+
+#Examples of exponents 
+exp(1.3862)
+
+log(exp(1)) #think about in words what you are asking it to do. To what power do i have to raise e to get a value of e^1 (exp(1))
+
+```
+
+### Creating Sequences of Values 
+
+```{r}
+# A sequences from 1-20 by increments of 1 
+
+ex_1 <- seq(from = 1, to = 20, by = 1)
+
+#Vector from 0 to 40 by 0.2 
+ex_2 <- seq(from = 0, to = 40, by = 0.2)
+
+#Vector from 1 to 5000 by 10 
+ex_3 <- seq(from = 1, to = 5000, by = 10)
+
+```
+
+
+### Create a Function for Logistic Growth 
+
+Given the carrying capacity, the initial population and the growth rate, and a time, use the logistic growth model to estimate the population at that time
+
+P = K / 1 + (K-P0/P0)e^rt
+
+```{r}
+pop_logistic <- function(capacity, init_pop, g_rate, time_yr) {
+  
+  capacity/ (1+ ((capacity - init_pop) / init_pop) * exp(-g_rate*time_yr))
+  
+}
+
+pop_logistic(capacity = 2580, init_pop = 230, g_rate = 0.32, time_yr = 2.4)
+
+```
+
+### Try Finding Population over a Sequence of Times
+
+```{r}
+time_vec <- seq(from = 0, to = 20, by = 0.5) #vector of time from 0 to 20 that goes by increments of 0.5 years 
+
+```
+
+Now we have to estimate the pop over that time but with the same parameters we used above, capacity = 2580, init_pop = 230, g_rate = 0.32, but now with our time vector and not a single value. 
+
+```{r}
+chipmunk_pop <- pop_logistic(capacity = 2580, init_pop = 230, g_rate = 0.32, time_yr = time_vec)
+
+```
+
+
+### Cretae a Data Frame and Plot Chipmunk Population over time 
+
+```{r}
+chipmunk_df <- data.frame(time_vec, chipmunk_pop)
+
+```
+
+
+### Bare Minimum ggplot Graph 
+
+```{r}
+ggplot(data = chipmunk_df, aes(x = time_vec, y = chipmunk_pop)) + 
+  geom_point() +
+  labs(x = "Time (years)", 
+       y = "Chipmunk Population (individuals)", 
+       title = "Inyo NF chipmunks")
+```
+
+
+
+
+
+
+
+
+
+
+
+
